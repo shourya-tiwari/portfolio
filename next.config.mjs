@@ -19,6 +19,16 @@ const nextConfig = {
   // Content lives on disk and is read at build time; nothing here needs a runtime.
   experimental: {
     optimizePackageImports: ['shiki'],
+    /*
+     * Defensive only. Shiki's 616 grammar files and 11MB dist are not currently
+     * reached by the tracer — no shiki entry appears in any .nft.json, and no
+     * MDX file contains a code fence for it to highlight. Measured build-trace
+     * time is unchanged (6s with and without). This keeps the grammars out if
+     * a future code block pulls the highlighter into the graph.
+     */
+    outputFileTracingExcludes: {
+      '*': ['node_modules/shiki/**', 'node_modules/@shikijs/**'],
+    },
   },
 };
 
