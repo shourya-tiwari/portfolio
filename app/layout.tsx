@@ -1,0 +1,85 @@
+import type { Metadata, Viewport } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+
+import { Footer } from '@/components/footer';
+import { Nav } from '@/components/nav';
+import { getProfile, getSocialLinks } from '@/lib/content';
+import { SITE_URL } from '@/lib/site';
+
+import './globals.css';
+
+/* Self-hosted at build time — no request to a font CDN at runtime. */
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+
+/*
+ * 'optional' rather than 'swap': mono is used for tech tags, filter pills, and the
+ * metric numbers, and a late swap reflowed those enough to cost 0.12 CLS on case
+ * study pages. With 'optional' the browser keeps the metric-compatible monospace
+ * fallback if the face is not ready in time, and never swaps mid-paint.
+ */
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'optional',
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
+  variable: '--font-mono',
+});
+
+export function generateMetadata(): Metadata {
+  const profile = getProfile();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: `${profile.name} — ML/AI Engineer`,
+      template: `%s — ${profile.name}`,
+    },
+    description: profile.tagline,
+    openGraph: {
+      type: 'website',
+      siteName: profile.name,
+      title: `${profile.name} — ML/AI Engineer`,
+      description: profile.tagline,
+      url: SITE_URL,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${profile.name} — ML/AI Engineer`,
+      description: profile.tagline,
+    },
+    robots: { index: true, follow: true },
+  };
+}
+
+export const viewport: Viewport = {
+  themeColor: '#0a0a0a',
+  colorScheme: 'dark',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const profile = getProfile();
+
+  return (
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="flex min-h-screen flex-col bg-bg font-sans text-fg antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-accent-ink"
+        >
+          Skip to content
+        </a>
+
+        <Nav name={profile.name} resume={profile.resume} />
+
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+
+        <Footer profile={profile} socials={getSocialLinks()} />
+      </body>
+    </html>
+  );
+}

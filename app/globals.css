@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* surfaces */
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-hi: #171717;
+    --border: #1f1f1f;
+    --border-hi: #2e2e2e;
+
+    /* text */
+    --fg: #ededed;
+    --muted: #a1a1a1;
+    --faint: #808080; /* 5.0:1 on --bg — the lowest value that clears WCAG AA at 12px */
+
+    /* the single accent — warm amber, used sparingly */
+    --accent: #e9a23b;
+    --accent-hi: #f2b457;
+    --accent-ink: #0a0a0a;
+
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible, on-brand focus for keyboard users only. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8;
+  }
+
+  /* Primary CTA — filled accent. The only large block of accent on the page. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3
+           text-sm font-semibold text-accent-ink transition-colors duration-200 ease-out
+           hover:bg-accent-hi;
+  }
+
+  /* Secondary CTA — outlined, borrows accent only on hover. */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-line-hi
+           px-5 py-3 text-sm font-semibold text-fg transition-colors duration-200 ease-out
+           hover:border-accent hover:text-accent;
+  }
+
+  .rule {
+    @apply border-t border-line;
+  }
+}
+
+/* rehype-pretty-code: one line per row, so line numbers and highlights line up. */
+[data-rehype-pretty-code-figure] {
+  @apply mb-6 mt-6;
+}
+
+[data-rehype-pretty-code-figure] pre {
+  @apply overflow-x-auto rounded-lg border border-line bg-surface py-4 text-[0.85rem] leading-relaxed;
+}
+
+[data-rehype-pretty-code-figure] code {
+  @apply grid;
+  counter-reset: line;
+}
+
+[data-rehype-pretty-code-figure] code > [data-line] {
+  @apply border-l-2 border-transparent px-4;
+}
+
+[data-rehype-pretty-code-figure] figcaption[data-rehype-pretty-code-title] {
+  @apply rounded-t-lg border border-b-0 border-line bg-surface-hi px-4 py-2
+         font-mono text-xs text-muted;
+}
+
+[data-rehype-pretty-code-figure] figcaption + pre {
+  @apply rounded-t-none;
+}

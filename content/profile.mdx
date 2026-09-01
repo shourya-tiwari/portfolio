@@ -1,0 +1,92 @@
+---
+name: "Shourya Tiwari"
+tagline: "AI & ML engineering student building retrieval and agent systems — and the evaluation work that proves they actually hold up."
+bio: "Third-year B.Tech AIML student at Symbiosis Institute of Technology, Pune, and a research intern at SCAAI. I build applied ML systems end to end — and I spend most of my time on the part that decides whether they're any good: the evaluation, the routing, and the failure modes."
+email: "tshourya1507@gmail.com"
+resume: "/resume.pdf"
+location: "Pune, Maharashtra"
+
+# The two badge cards under the hero CTAs.
+badges:
+  - { label: "3rd-Year AIML Student", detail: "SIT Pune · CGPA 8.04" }
+  - { label: "Research & Project Intern", detail: "SCAAI (Symbiosis Centre for Applied AI)" }
+  - { label: "Open to Internships", detail: "Pune, Maharashtra" }
+
+# Social links. Delete a line and its icon disappears from the hero row and footer.
+# emailLink controls the mail icon's href.
+#   Set (below)  = Gmail web compose, opens in a new tab with "To:" prefilled. Works in any
+#                  browser, needs no mail client installed.
+#   Deleted      = falls back to "mailto:tshourya1507@gmail.com", which opens the *visitor's*
+#                  own mail app — correct semantics, but silently does nothing on machines
+#                  with no default mail handler registered (Windows without Outlook/Mail).
+emailLink: "https://mail.google.com/mail/?view=cm&fs=1&to=tshourya1507@gmail.com&su=Hello%20Shourya"
+linkedin: "https://linkedin.com/in/shouryatiwari"
+github: "https://github.com/shourya-tiwari"
+
+education:
+  - degree: "B.Tech in Artificial Intelligence & Machine Learning"
+    institution: "Symbiosis Institute of Technology, Pune"
+    period: "2024 — 2028"
+    detail: "CGPA 8.04"
+    coursework:
+      ["Machine Learning", "Deep Learning", "NLP", "Computer Vision", "LLMs & Agents",
+       "Data Structures & Algorithms", "DBMS", "Operating Systems", "Computer Networks",
+       "Probability & Statistics"]
+
+experience:
+  - role: "Research and Project Intern"
+    org: "Symbiosis Centre for Applied Artificial Intelligence (SCAAI)"
+    period: "July 2025 — Present"
+    note: "Built end-to-end ML pipelines on an NDA-restricted laboratory dataset — a modular data-cleaning system, feature engineering, multi-output model training and validation, and deployment. Developed and optimized regression and classification models for real scientific data through systematic experimentation and reproducible Python pipelines."
+
+skills:
+  - category: "Languages"
+    items: ["Python", "SQL", "Java", "C++", "JavaScript"]
+  - category: "AI / ML"
+    items: ["TensorFlow", "PyTorch", "Scikit-Learn", "Hugging Face", "LangGraph", "RAG", "vLLM", "OpenCV"]
+  - category: "Backend & Frameworks"
+    items: ["FastAPI", "Spring Boot", "Spring Security", "Flask", "Streamlit", "REST APIs"]
+  - category: "Databases"
+    items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Memgraph", "SQLite"]
+  - category: "DevOps & Cloud"
+    items: ["Docker", "AWS (EC2)", "Git", "GitHub Actions CI/CD", "Linux"]
+  - category: "Tools"
+    items: ["Postman", "Swagger/OpenAPI", "Power BI", "Excel"]
+
+certifications:
+  - { title: "Machine Learning Specialization", issuer: "Andrew Ng — DeepLearning.AI" }
+  - { title: "Deep Learning Specialization", issuer: "Andrew Ng — DeepLearning.AI" }
+  - { title: "Complete Data Science, DL, NLP, MLOps Bootcamp", issuer: "Krish Naik — Udemy" }
+
+# Extra links with no dedicated icon.
+socials: []
+---
+
+I'm a third-year B.Tech AIML student at Symbiosis Institute of Technology in Pune, and a research
+and project intern at SCAAI, where I build end-to-end ML pipelines on an NDA-restricted laboratory
+dataset — data cleaning, feature engineering, multi-output model training, and deployment.
+
+The thing I keep circling back to is the part of ML that isn't modeling. Most of the projects on this
+site started as a system that appeared to work and turned into a much longer argument about whether it
+actually did. On LegalAI, dense retrieval had been silently running as BM25-only for an unknown stretch
+because the embedding model was quietly 404ing — the feature "worked" the entire time. On the
+e-commerce intelligence project, the predictive models scored suspiciously well, and chasing that
+down surfaced data leakage serious enough that I dropped the predictive framing entirely rather than
+ship something that wouldn't generalize. On the reconciliation agent, I had to walk back a change that
+pushed recall up, because it was converting honest escalations into confident wrong answers.
+
+That's why every case study here has a **What Broke** section, and why they're the honest ones. I'd
+rather show the bug that cost me two days than a results table with no story behind it.
+
+The pattern across most of what I build: use the cheap deterministic path first and route to a model
+only for what's genuinely left over; keep the system provider-agnostic by construction rather than by
+good intentions; and build the measurement before trusting the result. Right now I'm most interested
+in self-hosted inference, retrieval and agent evaluation, and the unglamorous infrastructure that
+makes any of it reproducible.
+
+Outside of that: Technical Team Executive at my college's AI Club, and a member of the Codex and FOSS
+clubs. I play chess at about 1800 ELO — third at district level — and represented my city in
+district-level cricket.
+
+I'm looking for internship and new-grad roles in ML and AI engineering. If any of this lines up with
+what your team is working on, my inbox is open.
