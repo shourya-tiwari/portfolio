@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import { Footer } from '@/components/footer';
 import { Nav } from '@/components/nav';
@@ -8,10 +8,18 @@ import { SITE_URL } from '@/lib/site';
 
 import './globals.css';
 
-/* Self-hosted at build time — no request to a font CDN at runtime. */
-const inter = Inter({
-  subsets: ['latin'],
+/*
+ * Self-hosted from app/fonts rather than next/font/google: the Google loader
+ * fetches the face from fonts.gstatic.com during `next build`, which makes the
+ * build depend on the network. These are the same latin-subset variable files
+ * that loader produced, committed to the repo so the build is hermetic.
+ */
+const inter = localFont({
+  src: './fonts/Inter-latin.woff2',
+  weight: '100 900',
+  style: 'normal',
   display: 'swap',
+  adjustFontFallback: 'Arial',
   variable: '--font-sans',
 });
 
@@ -21,9 +29,12 @@ const inter = Inter({
  * study pages. With 'optional' the browser keeps the metric-compatible monospace
  * fallback if the face is not ready in time, and never swaps mid-paint.
  */
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
+const jetbrainsMono = localFont({
+  src: './fonts/JetBrainsMono-latin.woff2',
+  weight: '100 800',
+  style: 'normal',
   display: 'optional',
+  adjustFontFallback: 'Arial',
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
   variable: '--font-mono',
 });
