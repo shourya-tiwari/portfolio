@@ -70,11 +70,21 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 };
 
+/*
+ * data-scroll-behavior: globals.css sets `scroll-behavior: smooth` on html for
+ * in-page anchors. As of Next 16 the router no longer overrides that during route
+ * transitions unless this attribute is present, which would leave every navigation
+ * smooth-scrolling to the top instead of jumping.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const profile = getProfile();
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="flex min-h-screen flex-col bg-bg font-sans text-fg antialiased">
         <a
           href="#main"

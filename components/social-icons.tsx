@@ -1,3 +1,6 @@
+/* React 19's types dropped the global JSX namespace; it is exported from react now. */
+import type { JSX } from 'react';
+
 import type { SocialKey } from '@/lib/schema';
 
 /**

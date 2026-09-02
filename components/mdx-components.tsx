@@ -118,9 +118,11 @@ export const mdxComponents: MDXComponents = {
     <td className="border-b border-line px-4 py-3 align-top text-muted" {...props} />
   ),
 
+  /* React 19's types widen img's src to `string | Blob`. Markdown only ever yields a
+     string, and next/image will not accept a Blob, so narrow rather than cast. */
   img: ({ src = '', alt = '', ...props }: ComponentPropsWithoutRef<'img'>) => (
     <Image
-      src={src}
+      src={typeof src === 'string' ? src : ''}
       alt={alt}
       width={1200}
       height={675}

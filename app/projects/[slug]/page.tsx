@@ -7,7 +7,8 @@ import { Tag } from '@/components/tag';
 import { getProject, getProjects } from '@/lib/content';
 import { renderMdx } from '@/lib/mdx';
 
-type Params = { params: { slug: string } };
+/* params is a Promise as of Next 15, and synchronous access was removed in 16. */
+type Params = { params: Promise<{ slug: string }> };
 
 /**
  * Only shipped projects are enumerated, so an `in-progress` project is never built
@@ -19,8 +20,9 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export function generateMetadata({ params }: Params): Metadata {
-  const project = getProject(params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) return {};
 
   return {
@@ -35,7 +37,8 @@ export function generateMetadata({ params }: Params): Metadata {
 }
 
 export default async function ProjectPage({ params }: Params) {
-  const project = getProject(params.slug);
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) notFound();
 
   const body = await renderMdx(project.body);
