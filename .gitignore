@@ -11,3 +11,6 @@ next-env.d.ts
 *.tsbuildinfo
 
 .vercel
+
+# Source material for the case studies — drafts, not part of the site.
+material_to_input/
