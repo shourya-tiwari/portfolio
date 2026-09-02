@@ -49,6 +49,12 @@ export function generateMetadata(): Metadata {
       template: `%s — ${profile.name}`,
     },
     description: profile.tagline,
+    /*
+     * './' resolves against metadataBase plus the current route, so every page
+     * emits a self-referencing canonical rather than all of them pointing at the
+     * origin. Inherited by each route unless it sets its own alternates.
+     */
+    alternates: { canonical: './' },
     openGraph: {
       type: 'website',
       siteName: profile.name,
