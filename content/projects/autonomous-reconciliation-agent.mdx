@@ -14,14 +14,17 @@ metrics:
 ---
 
 ## Problem
+
 Finance teams reconciling transactions across multiple sources — bank statements, invoice ledgers, payment gateway exports — still do this largely by hand. Amounts don't line up exactly, references get duplicated, partial payments split across records, and every mismatch needs a policy-grounded explanation before anyone can act on it. Built for Razorpay's AI Buildathon 2026 (AI Finance Controller track), this project is an agent that does that reconciliation end-to-end: matching records across sources, reasoning through ambiguous cases, and citing the actual GST clause behind every exception it can't resolve on its own.
 
 ## Why It Was Hard
+
 The real constraint wasn't the AI — it was trust. A reconciliation system that silently guesses is worse than useless when the output can move money, so every design decision had to answer: *what happens when this is wrong, and can a reviewer tell?* That ruled out the obvious shortcut of routing everything through an LLM and calling it "AI-powered." It also meant every claimed number had to survive being re-run from a clean clone, with no API keys, by someone who wasn't me — including the failure modes, which had to be demonstrated live, not described.
 
 Data was the other constraint. Razorpay's server-to-server payment API isn't enabled on standard test accounts, so there was no way to generate hundreds of real transactions on demand. The dataset had to be built from a small real anchor (8 live test-mode transactions) expanded into a larger corpus — honestly documented as synthetic, not passed off as something it wasn't.
 
 ## Approach
+
 A layered pipeline where each stage only sees what the previous stage couldn't resolve — this is the actual cost and reliability control, not an afterthought:
 
 1. **Ingest** — normalizes three source schemas into one canonical format; malformed records are rejected with a per-field reason and logged, never silently dropped
@@ -34,6 +37,7 @@ A layered pipeline where each stage only sees what the previous stage couldn't r
 An ablation script strips one layer at a time and re-scores against the same ground truth, so the "deterministic-first, model-last" design is a measured claim, not an assertion.
 
 ## Results
+
 Evaluated on a 680-record corpus (8 real anchor transactions + a documented synthetic expansion) against a held-out ground truth:
 
 - **100% bucket accuracy**, **100% match precision** — the pipeline never trades correctness for coverage
@@ -44,10 +48,24 @@ Evaluated on a 680-record corpus (8 real anchor transactions + a documented synt
 - Both injected failure modes (a malformed row, an LLM timeout) are handled gracefully and shown, not just claimed
 
 ## What Broke
+
 - **No S2S payment API access** meant the dataset couldn't be pure real data at scale — solved by anchoring to 8 real transactions and documenting the synthetic expansion's provenance rather than hiding it
 - **LLM timeouts** during the reasoning stage needed real retry/backoff logic, not a happy-path assumption — this became one of the two demonstrated failure modes
 - **Recall vs. precision tension** — early versions were tempted to push recall up by loosening the LLM's confidence threshold; this was reversed once it started converting real ambiguity into wrong answers instead of honest escalations
 - **Settlement dropped to 0 records** in the initial sandbox pull, since test mode doesn't auto-settle payments — not a bug, but required explicit handling in the pipeline so an empty source doesn't break downstream stages
 
 ## Stack
-Python · Gemini (LLM reasoning, structured output) · ChromaDB + sentence-transformers (local RAG retrieval) · pandas / pydantic v2 (schema enforcement) · rapidfuzz (fuzzy matching) · Streamlit (optional review-queue UI) · pytest (162 tests) · Razorpay test-mode API (data anchor)
+
+**Language:** Python
+
+**LLM reasoning:** Gemini (structured output)
+
+**Retrieval:** ChromaDB + sentence-transformers (local RAG)
+
+**Data & validation:** pandas, pydantic v2 (schema enforcement), rapidfuzz (fuzzy matching)
+
+**Interface:** Streamlit (optional review-queue UI)
+
+**Testing:** pytest (162 tests)
+
+**Data source:** Razorpay test-mode API (data anchor)

@@ -87,9 +87,16 @@ export default async function ProjectPage({ params }: Params) {
         </ul>
       </header>
 
-      {/* Headline numbers — one of the few places the accent appears. */}
+      {/* Headline numbers — one of the few places the accent appears.
+          Column count follows the metric count: the cells paint over the wrapper's
+          bg-line to draw the dividers, so a short row would leave the leftover
+          column showing as a solid block of border colour. */}
       {project.metrics.length > 0 && (
-        <dl className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3">
+        <dl
+          className={`mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line ${
+            project.metrics.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
+          }`}
+        >
           {project.metrics.map((metric) => (
             /* flex-col-reverse so the number reads first while <dt> still precedes <dd> */
             <div key={metric.label} className="flex flex-col-reverse bg-bg px-5 py-6">

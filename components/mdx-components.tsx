@@ -61,8 +61,10 @@ export const mdxComponents: MDXComponents = {
     <ul className="mb-5 space-y-2 pl-1 marker:text-faint" {...props} />
   ),
 
+  /* pl-6 rather than pl-5 so numbered text lands on the same 1.5rem edge as the
+     bulleted text below (ul's pl-1 plus the li's pl-5). */
   ol: (props: ComponentPropsWithoutRef<'ol'>) => (
-    <ol className="mb-5 list-decimal space-y-2 pl-5 marker:text-faint" {...props} />
+    <ol className="mb-5 list-decimal space-y-2 pl-6 marker:text-faint" {...props} />
   ),
 
   li: ({ className, ...props }: ComponentPropsWithoutRef<'li'>) => (

@@ -88,29 +88,39 @@
   }
 }
 
-/* rehype-pretty-code: one line per row, so line numbers and highlights line up. */
-[data-rehype-pretty-code-figure] {
+/* rehype-pretty-code: one line per row, so line numbers and highlights line up.
+   It marks fenced blocks with <figure> and inline code with <span>, both carrying
+   data-rehype-pretty-code-figure — so every block rule is scoped to the figure.
+   Matching on the attribute alone turns inline code into a display:grid box and
+   breaks the sentence around it. */
+figure[data-rehype-pretty-code-figure] {
   @apply mb-6 mt-6;
 }
 
-[data-rehype-pretty-code-figure] pre {
+figure[data-rehype-pretty-code-figure] pre {
   @apply overflow-x-auto rounded-lg border border-line bg-surface py-4 text-[0.85rem] leading-relaxed;
 }
 
-[data-rehype-pretty-code-figure] code {
+figure[data-rehype-pretty-code-figure] code {
   @apply grid;
   counter-reset: line;
 }
 
-[data-rehype-pretty-code-figure] code > [data-line] {
+figure[data-rehype-pretty-code-figure] code > [data-line] {
   @apply border-l-2 border-transparent px-4;
 }
 
-[data-rehype-pretty-code-figure] figcaption[data-rehype-pretty-code-title] {
+figure[data-rehype-pretty-code-figure] figcaption[data-rehype-pretty-code-title] {
   @apply rounded-t-lg border border-b-0 border-line bg-surface-hi px-4 py-2
          font-mono text-xs text-muted;
 }
 
-[data-rehype-pretty-code-figure] figcaption + pre {
+figure[data-rehype-pretty-code-figure] figcaption + pre {
   @apply rounded-t-none;
+}
+
+/* Inline code. Lives here rather than in mdx-components because rehype-pretty-code
+   sets data-language on inline code too, so the component can't tell the two apart. */
+span[data-rehype-pretty-code-figure] > code {
+  @apply rounded border border-line bg-surface px-1.5 py-0.5 font-mono text-[0.85em] text-fg;
 }
